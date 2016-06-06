@@ -3,6 +3,8 @@ import java.util.Scanner
 import scala.collection.immutable.{HashMap, List}
 import scala.math
 
+
+/*These are some problems (mainly about arrays) from Hackerrank*/
 object Solution {
 
   //REVERSE ARRAY

@@ -1,5 +1,6 @@
 /**
   * Created by charley on 5/26/16.
+  * Jeremie showed me some of the basics of Scala to get me started.  This is mainly that.
   */
 
 
