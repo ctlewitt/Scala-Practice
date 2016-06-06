@@ -9,15 +9,15 @@ object Solution {
 
   //REVERSE ARRAY
   def reverseArray(args: Array[String]) {
-    val sc = new java.util.Scanner (System.in);
-    var n = sc.nextInt();
-    var arr = new Array[Int](n);
+    val sc = new Scanner(System.in)
+    var n = sc.nextInt()
+    var arr = new Array[Int](n)
     for(arr_i <- 1 to n) {
-      arr(n - arr_i) = sc.nextInt();
+      arr(n - arr_i) = sc.nextInt()
     }
 
 
-    for(arr_i <- 0 to n-1) {
+    for(arr_i <- 0 until n) {
       print(arr(arr_i))
       if (arr_i < n-1){
         print(" ")
@@ -29,7 +29,7 @@ object Solution {
 
   //2D ARRAY SEARCH (HOURGLASS)
   def hourGlass(args: Array[String]) {
-    val sc = new java.util.Scanner (System.in)
+    val sc = new Scanner (System.in)
     var arr = Array.ofDim[Int](6,6)
     for(arr_i <- 0 until 6) {
       for(arr_j <- 0 until 6){
@@ -41,7 +41,7 @@ object Solution {
       for(arr_x <- 0 to 3){
         val nextHourGlass = hourglass(arr, arr_x, arr_y)
         if (nextHourGlass > myMax) {
-          myMax = nextHourGlass;
+          myMax = nextHourGlass
         }
       }
     }
@@ -67,7 +67,7 @@ object Solution {
 
   //dynamic array
   def dynamicArray(args: Array[String]): Unit = {
-    val sc = new java.util.Scanner(System.in)
+    val sc = new Scanner(System.in)
     val n = sc.nextInt()
     val q = sc.nextInt()
     //create 2D array of ints
@@ -84,7 +84,7 @@ object Solution {
         myArr(seqIdx) = myArr(seqIdx):+y //DOES THIS RETURN A VALUE OR UPDATE THE ACTUAL???
       }
       else{//queryType ==2
-        lastAns = myArr(seqIdx)(y % (myArr(seqIdx).length))
+        lastAns = myArr(seqIdx)(y % myArr(seqIdx).length)
         println(lastAns)
       }
     }
@@ -97,7 +97,7 @@ object Solution {
   def sparseArray(args: Array[String]) {
     /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution
 */
-    val sc = new java.util.Scanner(System.in)
+    val sc = new Scanner(System.in)
     val n = sc.nextInt()
     var myWords = sparseArrAux(new HashMap[String, Int](), n, sc)
     val q = sc.nextInt()
@@ -115,51 +115,79 @@ object Solution {
       val nextWord: String = sc.next()
       val nextWordCount = oldHash.getOrElse(nextWord, -1)
       if(nextWordCount == -1) {
-        return sparseArrAux(oldHash.+(nextWord -> 1), (count - 1), sc)
+        sparseArrAux(oldHash.+(nextWord -> 1), count - 1, sc)
       }
       else{
-        return sparseArrAux(oldHash.updated(nextWord, (nextWordCount+1)), count-1, sc)
+        sparseArrAux(oldHash.updated(nextWord, nextWordCount + 1), count-1, sc)
       }
     }
     else{
-      return oldHash
+      oldHash
     }
   }
 
 
 
-  def main(args: Array[String]) {
-    val sc = new java.util.Scanner(System.in)
+  def maxElement() {
+    val sc = new Scanner(System.in)
     val n = sc.nextInt()
-    maxElement(List(), n, sc)
-
-
+    maxElementAux(List(), n, sc)
   }
 
-
-  def maxElement(myStack: List[StackElem], count: Int, sc: Scanner): Unit ={
+  def maxElementAux(myStack: List[StackElem], count: Int, sc: Scanner): Unit ={
     if(count > 0){
       val command: Int = sc.nextInt()
       if (command == 1){
         val numToAdd = sc.nextInt()
         if(myStack.isEmpty){
-          maxElement(new StackElem(numToAdd, numToAdd)+:myStack, count-1, sc)
+          maxElementAux(new StackElem(numToAdd, numToAdd)+:myStack, count-1, sc)
         }
         else{
-          maxElement(new StackElem(numToAdd, math.max(numToAdd, myStack.head.curMax))+:myStack, count-1, sc)
+          maxElementAux(new StackElem(numToAdd, math.max(numToAdd, myStack.head.curMax))+:myStack, count-1, sc)
         }
       }
       else if (command == 2){
-        maxElement(myStack.tail, count-1, sc)
+        maxElementAux(myStack.tail, count-1, sc)
       }
       else{//command == 3
         println(myStack.head.curMax)
-        maxElement(myStack, count-1, sc)
+        maxElementAux(myStack, count-1, sc)
       }
     }
 
   }
 
   class StackElem(val value:Int, val curMax:Int){}
+
+  //MaximizingXOR
+  def MaximizingXOR() {
+    val sc = new Scanner(System.in)
+    val leftMost = sc.nextInt()
+    val rightMost = sc.nextInt()
+    sc.close()
+    println (maxXORVaryL(leftMost, rightMost, 0))
+  }
+
+  //helper for maximizingXOR
+  def maxXORVaryL(left: Int, rightMost: Int, maxXOR: Int): Int={
+    if (left > rightMost){
+      maxXOR
+    }
+    else{
+      var maxXORUpdated = maxXORVaryR(left, left, rightMost, maxXOR)
+      maxXORVaryL(left+1, rightMost, maxXORUpdated)
+    }
+  }
+
+  //helper for maximizingXOR
+  def maxXORVaryR(left: Int, right: Int, rightMost: Int, maxXOR: Int): Int= {
+    if(right > rightMost){
+      maxXOR
+    }
+    else{
+      math.max(math.max(maxXOR, left^right), maxXORVaryR(left, right+1, rightMost, maxXOR))
+    }
+  }
+
 
 }
