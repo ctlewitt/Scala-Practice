@@ -25,7 +25,7 @@ object BearAndSteadyGene {
       minSubStrLen
    }
    else{
-     if (lettersIDontWant.values.foldLeft(true){(accum , count) => if (count <= 0) accum else false }){
+     if (lettersIDontWant.values.forall(_ <= 0)){
        rubberBand(start+1, end, lettersIDontWant + (gene.apply(start)->(lettersIDontWant(gene.apply(start)) + 1)), gene, math.min(end-start, minSubStrLen))
      }
      else{
