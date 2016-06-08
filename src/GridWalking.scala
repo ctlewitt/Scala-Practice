@@ -1,5 +1,13 @@
 /**
   * Created by charley on 6/7/16.
+  *
+  *
+  *
+  * NEXT STEP: MAKE FASTER BY DETERMINING EACH MOVE FROM THE PREVIOUS MOVES INSTEAD OF GOING THROUGH EVERY MOVE EVERY TIME
+  * POSSIBLE BUG: FOR A POSITION (E.G., 22322) I AM CURRENTLY ONLY ADDING 22222 AND 22422 TO REACH THAT NUMBER, BUT I SHOULD
+  * ALSO BE ADDING 12322 AND 32322 AND ETC...2 FOR EACH DIMENSION.
+  *
+  *
   */
 object GridWalking {
 
@@ -20,9 +28,6 @@ object GridWalking {
       val totalPossibleMoves = finalMap.values.sum
       println(totalPossibleMoves)
     }
-
-
-
   }
 
   //helper function: scans in values to populate a list
