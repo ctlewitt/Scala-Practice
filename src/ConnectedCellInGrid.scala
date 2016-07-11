@@ -7,12 +7,11 @@ import scala.io.StdIn
 
 
 class Matrix(grid: Seq[Seq[Int]]){
-  val dims = (grid.size, grid.head.size)
+  val (numRows, numCols) = (grid.size, grid.head.size)
 
 
   def getMaxConn(x: Int, y: Int) : (Int, Matrix) = {
     //call next recursion
-    val (numRows, numCols) = dims
     val (currSize, updatedMatrix) = countComponent(x, y) //CONSIDERING ADDING OURSELVES INTO LIST OF NEIGHBORS HERE
     //    val (currSize, updatedMatrix) = countComponent(getNeighbors(x,y, numRows, numCols), matrix) //CONSIDERING ADDING OURSELVES INTO LIST OF NEIGHBORS HERE
     getNextPos(x, y) match{
@@ -25,7 +24,6 @@ class Matrix(grid: Seq[Seq[Int]]){
   }
 
   def getNextPos(x:Int, y:Int): Option[(Int, Int)] = {
-    val (numRows, numCols) = dims
     if(x < numCols-1){
       Some(x+1, y)
     }
@@ -43,7 +41,6 @@ class Matrix(grid: Seq[Seq[Int]]){
     }
     else {
       val matrixWZero = setToZero(x, y)
-      val (numRows, numCols) = dims
       val (count, updatedMatrix) = matrixWZero.countComponentAux(getNeighbors(x, y))
       (count + 1, updatedMatrix)
     }
@@ -57,7 +54,6 @@ class Matrix(grid: Seq[Seq[Int]]){
           countComponentAux(tail)
         }
         else{
-          val (numRows, numCols) = dims
           val myNeighbors = getNeighbors(x,y)
           val (newNeighborCount, newNeighborMatrix) = setToZero(x,y).countComponentAux(myNeighbors)
           val (myUpdatedCount, myUpdatedMatrix) = newNeighborMatrix.countComponentAux(tail)
@@ -70,7 +66,6 @@ class Matrix(grid: Seq[Seq[Int]]){
 
 
   def getNeighbors(x: Int, y: Int): Seq[(Int, Int)] = {
-    val (numRows, numCols) = dims
     val  l = List(-1, 0, 1)
     val pairs = for {
       i <- l
@@ -106,9 +101,6 @@ object ConnectedCellInGrid {
     //if not already checked and 1, search connected component, keep track of size
     //return max size
   }
-
-
-
 }
 
 
